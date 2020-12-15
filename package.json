@@ -25,6 +25,9 @@
     "dependencies": {
         "bootstrap": "^4.5.3",
         "bootstrap-vue": "^2.20.1",
-        "vue-router": "^3.4.9"
+        "prismjs": "^1.22.0",
+        "vue-prism-editor": "^1.2.2",
+        "vue-router": "^3.4.9",
+        "vue-select": "^3.10.8"
     }
 }

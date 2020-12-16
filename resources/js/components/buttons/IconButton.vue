@@ -24,11 +24,9 @@
 
 <script>
 import IconBase from "../icons/IconBase";
-import IconMenuOutline from "../icons/IconMenuOutline";
 export default {
   components: {
     IconBase,
-    IconMenuOutline,
   },
   props: {
     iconName: {

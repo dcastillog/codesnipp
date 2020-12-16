@@ -2,14 +2,18 @@
   <div class="p-2">
     <h5 class="sidebar-content__title">NOTES</h5>
     <div>
-      <div class="sidebar-content-section__item">
-        <div>Local</div>
-        <div>Icono</div>
-      </div>
-      <div class="sidebar-content-section__item">
-        <div>Gists</div>
-        <div>Icono</div>
-      </div>
+      <router-link :to="{ name: 'home' }">
+        <div class="sidebar-content-section__item">
+          <div>Local</div>
+          <div>Icono</div>
+        </div>
+      </router-link>
+      <router-link :to="{ name: 'gists' }">
+        <div class="sidebar-content-section__item">
+          <div>Gists</div>
+          <div>Icono</div>
+        </div>
+      </router-link>
     </div>
     <h5 class="sidebar-content__title">LANGUAGES</h5>
     <div>

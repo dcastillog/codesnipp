@@ -15,6 +15,19 @@ Vue.use(BootstrapVue)
 // Optionally install the BootstrapVue icon components plugin
 Vue.use(IconsPlugin)
 
+Vue.use({
+    install(Vue) {
+        Vue.prototype.$api = axios.create({
+            baseURL: 'http://localhost:8000/api/',
+            headers: {
+                "Content-Type": "application/json",
+            }
+        });
+    }
+})
+
+
+
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
@@ -25,8 +38,11 @@ Vue.use(IconsPlugin)
 
 Vue.component('app-layout', require('./layouts/AppLayout').default);
 
+import auth from './mixins/auth';
 import router from './router';
+import store from './store/index'
 
+Vue.mixin(auth);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -36,5 +52,6 @@ import router from './router';
 
 const app = new Vue({
     el: '#app',
-    router
+    router,
+    store
 });

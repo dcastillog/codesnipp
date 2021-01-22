@@ -16,10 +16,10 @@ class CreateSnippetTagTable extends Migration
         Schema::create('snippet_tag', function (Blueprint $table) {
             // $table->id();
             $table->unsignedBigInteger('snippet_id');
-            $table->foreign('snippet_id')->references('id')->on('snippets');
+            $table->foreign('snippet_id')->references('id')->on('snippets')->onDelete('cascade');
 
             $table->unsignedBigInteger('tag_id');
-            $table->foreign('tag_id')->references('id')->on('tags');
+            $table->foreign('tag_id')->references('id')->on('tags')->onDelete('cascade');
         });
     }
 

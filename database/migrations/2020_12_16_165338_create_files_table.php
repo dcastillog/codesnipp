@@ -18,11 +18,11 @@ class CreateFilesTable extends Migration
             $table->string('name');
             $table->string('theme');
             $table->string('language');
-            $table->string('content');
+            $table->longText('content');
             $table->unsignedBigInteger('snippet_id');
             $table->timestamps();
 
-            $table->foreign('snippet_id')->references('id')->on('snippets');
+            $table->foreign('snippet_id')->references('id')->on('snippets')->onDelete('cascade');
         });
     }
 

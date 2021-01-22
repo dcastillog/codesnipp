@@ -23,6 +23,7 @@ class Snippet extends JsonResource
             'name' => $this->name,
             'description' => $this->description,
             'user' => UserResource::make($this->user),
+            'files_count' => $this->files()->count(),
             'files' => FileResource::collection($this->files),
             'tags' => TagResource::collection($this->tags),
             'ago' => $this->created_at->diffForHumans(),

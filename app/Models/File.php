@@ -11,6 +11,7 @@ class File extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['name','theme','language','content','snippet_id'];
 
     public function snippet()
     {

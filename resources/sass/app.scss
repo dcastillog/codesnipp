@@ -1,11 +1,8 @@
-// Bootstrap Vue
-@import 'node_modules/bootstrap/scss/bootstrap.scss';
-@import 'node_modules/bootstrap-vue/src/index.scss';
-
-// Style
-@import "style";
+// Fonts
+@import url('https://fonts.googleapis.com/css?family=Nunito');
 
 // Variables
-@import "variables";
+@import 'variables';
 
-
+// Bootstrap
+@import '~bootstrap/scss/bootstrap';

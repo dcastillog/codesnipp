@@ -18,6 +18,15 @@ let actions = {
                 console.log(err)
             })
     },
+    fetchSnippetsByUser({ commit }, user) {
+        axios.get(`api/users/${user.id}/snippets`)
+            .then(res => {
+                commit('FETCH_SNIPPETS_BY_USER', res.data)
+            })
+            .catch(err => {
+                console.log(err);
+            });
+    },
     deleteSnippet({ commit }, snippet) {
         axios.delete(`/api/snippets/${snippet.id}`)
             .then(res => {

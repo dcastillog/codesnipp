@@ -1,53 +1,58 @@
 <template>
-  <b-card class="m-4">
-    <div class="snippet-card__header">
-      <h5>Card title</h5>
+  <div>
+    <b-card class="p-3">
+      <div class="snippet-card__header">
+        <h5>{{ snippet.name }}</h5>
 
-      <div class="snippet-card__header-buttons">
-        <icon-button>
-          <icon-github></icon-github>
-        </icon-button>
-        <icon-button>
-          <icon-pencil></icon-pencil>
-        </icon-button>
-        <icon-button>
-          <icon-trash></icon-trash>
-        </icon-button>
-      </div>
-    </div>
-    <b-card-text>
-      Descripcion
-      <div class="snippet-card__content">
-        <div class="row">
-          <div class="col-sm-8 col-md-9 col-lg-10">
-            <strong>scripts<span>(text)</span></strong>
-          </div>
-          <div class="col text-center">
-            <icon-button @click="makeToast()">
-              <icon-clipboard></icon-clipboard>
-            </icon-button>
-            <icon-button>
-              <icon-photograph></icon-photograph>
-            </icon-button>
-          </div>
-        </div>
-        <editor readOnly></editor>
-        <div class="snippet-card__tags row">
-          <span class="tag"># Web development</span>
-          <span class="tag"># Web Mobile</span>
-          <span class="tag"># Web Mobile</span>
-          <span class="tag"># Web Mobile</span>
-          <span class="tag"># Web Mobile</span>
-          <span class="tag"># IA</span>
-          <span class="tag"># IA</span>
-          <span class="tag"># IA</span>
-          <span class="tag"># IA</span>
-          <span class="tag"># IA</span>
-          <span class="tag"># IA</span>
+        <div class="snippet-card__header-buttons">
+          <icon-button>
+            <icon-github></icon-github>
+          </icon-button>
+
+          <icon-button>
+            <icon-pencil></icon-pencil>
+          </icon-button>
+
+          <icon-button
+            @click="$bvModal.show(`delete-snippet-modal-${snippet.id}`)"
+          >
+            <icon-trash></icon-trash>
+          </icon-button>
         </div>
       </div>
-    </b-card-text>
-  </b-card>
+      <b-card-text>
+        {{ snippet.description }}
+        <div class="snippet-card__content">
+          <div
+            class="snippet-card__file"
+            v-for="file in snippet.files"
+            :key="file.id"
+          >
+            <div class="row">
+              <div class="col-sm-8 col-md-9 col-lg-10">
+                <strong>{{ file.name }}<span>(text)</span></strong>
+              </div>
+              <div class="col text-center">
+                <icon-button @click="makeToast()">
+                  <icon-clipboard></icon-clipboard>
+                </icon-button>
+                <icon-button>
+                  <icon-photograph></icon-photograph>
+                </icon-button>
+              </div>
+            </div>
+            <editor readOnly :fileContent="file.content"></editor>
+          </div>
+          <div class="snippet-card__tags row">
+            <span class="tag" v-for="tag in snippet.tags" :key="tag.id">{{
+              tag.name
+            }}</span>
+          </div>
+        </div>
+      </b-card-text>
+    </b-card>
+    <delete-snippet-modal :snippet="snippet"></delete-snippet-modal>
+  </div>
 </template>
 
 <style lang="scss">
@@ -86,6 +91,7 @@ import IconTrash from "../icons/IconTrash";
 import IconPhotograph from "../icons/IconPhotograph";
 import IconClipboard from "../icons/IconClipboard";
 import Editor from "../editor/Editor";
+import DeleteSnippetModal from "../modals/DeleteSnippetModal.vue";
 
 export default {
   components: {
@@ -96,11 +102,15 @@ export default {
     IconTrash,
     IconPhotograph,
     IconClipboard,
+    DeleteSnippetModal,
   },
   data() {
     return {
       toastCount: 0,
     };
+  },
+  props: {
+    snippet: Object,
   },
   methods: {
     makeToast(append = false) {

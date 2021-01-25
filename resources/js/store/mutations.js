@@ -5,6 +5,9 @@ let mutations = {
     FETCH_SNIPPETS(state, snippets) {
         return state.snippets = snippets
     },
+    FETCH_SNIPPETS_BY_USER(state, snippets) {
+        return state.snippets = snippets;
+    },
     DELETE_SNIPPET(state, snippet) {
         let index = state.snippets.findIndex(item => item.id === snippet.id);
         state.posts.splice(index, 1);

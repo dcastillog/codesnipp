@@ -1,6 +1,6 @@
 <template>
   <b-form>
-    <form-group inline>
+    <form-group inline v-if="$route.path == '/home'">
       <template #form-label>Name</template>
       <template #form-input
         ><b-form-input
@@ -12,7 +12,7 @@
         ></b-form-input
       ></template>
     </form-group>
-    <form-group inline>
+    <form-group inline v-if="$route.path == '/gists' || $route.path == '/home'">
       <template #form-label>Description</template>
       <template #form-input
         ><b-form-input
@@ -24,7 +24,7 @@
         ></b-form-input
       ></template>
     </form-group>
-    <form-group inline>
+    <form-group inline v-if="$route.path == '/home'">
       <template #form-label>Tags</template>
       <template #form-input>
         <b-form-tags
@@ -35,7 +35,7 @@
       </template>
     </form-group>
 
-    <!-- <form-group inline>
+    <form-group inline v-if="$route.path == '/gists'">
       <template #form-label>Visibility</template>
       <template #form-input>
         <b-form-select v-model="snippet.public">
@@ -46,7 +46,7 @@
           <b-form-select-option :value="true">Public</b-form-select-option>
         </b-form-select>
       </template>
-    </form-group> -->
+    </form-group>
 
     <div class="file-section" v-for="(file, index) in files" :key="index">
       <div class="row">
@@ -98,8 +98,11 @@
               ></editor>
             </template>
           </form-group>
-          <div class="text-center">
-            <b-button @click="addFile" v-show="files.length - 1 == index"
+          <div class="text-center pt-3">
+            <b-button
+              variant="outline-dark"
+              @click="addFile"
+              v-show="files.length - 1 == index"
               >Add a file</b-button
             >
           </div>
@@ -110,6 +113,12 @@
           </icon-button>
         </div>
       </div>
+    </div>
+    <div>
+      <button @click.prevent="createSnippet(snippet)" :disabled="!isValid">
+        Submit
+      </button>
+      <button @click="$bvModal.hide('create-snippet-modal')">Cancel</button>
     </div>
   </b-form>
 </template>
@@ -136,7 +145,7 @@ export default {
       snippet: {
         name: "",
         description: "",
-        files: {},
+        files: [],
         public: false,
         // updatedAt: null,
         // createdAt: null
@@ -169,8 +178,20 @@ export default {
     deleteFile: function (index) {
       this.files.splice(index, 1);
     },
-    updateCode: function (updatedCode) {
-      console.log(updatedCode);
+    createSnippet(snippet) {
+      this.snippet.user_id = this.currentUser.id;
+      this.snippet.files = this.files;
+
+      console.log(snippet);
+
+      this.$store.dispatch("createSnippet", snippet).then((_) => {
+        this.$bvModal.hide("create-snippet-modal");
+      });
+    },
+  },
+  computed: {
+    isValid() {
+      return this.snippet.name != "";
     },
   },
 };

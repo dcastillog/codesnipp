@@ -52,16 +52,21 @@ export default {
       mode: this.mode.toLowerCase(),
       theme: this.theme.toLowerCase(),
       lineNumbers: this.lineNumbers,
+      lineWrapping: true,
       tabSize: this.tabSize,
       readOnly: this.readOnly,
       autoCloseTags: this.autoCloseTags,
       autoRefresh: true,
     });
 
-    this.editor.on("changes", () => {
-      this.$emit("input", this.content);
-      this.content = this.editor.getValue();
-    });
+    if (this.readOnly) {
+      this.editor.setValue(this.fileContent);
+    } else {
+      this.editor.on("keyup", () => {
+        this.$emit("input", this.content);
+        this.content = this.editor.getValue();
+      });
+    }
 
     this.editor.save();
   },
@@ -75,7 +80,6 @@ export default {
         newValue.toLowerCase() === "cs" ||
         newValue.toLowerCase() === "kotlin"
       ) {
-        console.log("clike", newValue);
         this.editor.setOption("mode", "clike");
       } else {
         this.editor.setOption("mode", newValue.toLowerCase());
@@ -94,6 +98,9 @@ export default {
   },
 
   props: {
+    fileContent: {
+      type: String,
+    },
     mode: {
       type: String,
       default: "javascript",
@@ -129,6 +136,10 @@ export default {
 </script>
 
 <style>
+.editor {
+  height: 100%;
+}
+
 .CodeMirror-code {
   font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
 }
@@ -136,5 +147,7 @@ export default {
   border-radius: 10px;
   box-shadow: 0 0 0 1px #444444;
   border: 5px solid transparent;
+  height: 100%;
+  /* width: calc(initial - 1000px); */
 }
 </style>
